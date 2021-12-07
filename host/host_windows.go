@@ -1,3 +1,4 @@
+//go:build windows
 // +build windows
 
 package host
@@ -13,9 +14,8 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/yusufpapurcu/wmi"
 	"github.com/shirou/gopsutil/v3/internal/common"
-	"github.com/shirou/gopsutil/v3/process"
+	"github.com/yusufpapurcu/wmi"
 	"golang.org/x/sys/windows"
 )
 
@@ -91,14 +91,6 @@ func HostIDWithContext(ctx context.Context) (string, error) {
 	}
 
 	return strings.ToLower(hostID), nil
-}
-
-func numProcs(ctx context.Context) (uint64, error) {
-	procs, err := process.PidsWithContext(ctx)
-	if err != nil {
-		return 0, err
-	}
-	return uint64(len(procs)), nil
 }
 
 func UptimeWithContext(ctx context.Context) (uint64, error) {

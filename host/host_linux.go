@@ -1,3 +1,4 @@
+//go:build linux
 // +build linux
 
 package host
@@ -63,10 +64,6 @@ func HostIDWithContext(ctx context.Context) (string, error) {
 	}
 
 	return "", nil
-}
-
-func numProcs(ctx context.Context) (uint64, error) {
-	return common.NumProcs()
 }
 
 func BootTimeWithContext(ctx context.Context) (uint64, error) {

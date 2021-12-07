@@ -1,3 +1,4 @@
+//go:build darwin
 // +build darwin
 
 package host
@@ -14,7 +15,6 @@ import (
 	"unsafe"
 
 	"github.com/shirou/gopsutil/v3/internal/common"
-	"github.com/shirou/gopsutil/v3/process"
 	"golang.org/x/sys/unix"
 )
 
@@ -43,14 +43,6 @@ func HostIDWithContext(ctx context.Context) (string, error) {
 	}
 
 	return "", errors.New("cannot find host id")
-}
-
-func numProcs(ctx context.Context) (uint64, error) {
-	procs, err := process.PidsWithContext(ctx)
-	if err != nil {
-		return 0, err
-	}
-	return uint64(len(procs)), nil
 }
 
 func UsersWithContext(ctx context.Context) ([]UserStat, error) {

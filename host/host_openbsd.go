@@ -1,3 +1,4 @@
+//go:build openbsd
 // +build openbsd
 
 package host
@@ -12,7 +13,6 @@ import (
 	"unsafe"
 
 	"github.com/shirou/gopsutil/v3/internal/common"
-	"github.com/shirou/gopsutil/v3/process"
 	"golang.org/x/sys/unix"
 )
 
@@ -24,14 +24,6 @@ const (
 
 func HostIDWithContext(ctx context.Context) (string, error) {
 	return "", common.ErrNotImplementedError
-}
-
-func numProcs(ctx context.Context) (uint64, error) {
-	procs, err := process.PidsWithContext(ctx)
-	if err != nil {
-		return 0, err
-	}
-	return uint64(len(procs)), nil
 }
 
 func PlatformInformationWithContext(ctx context.Context) (string, string, string, error) {

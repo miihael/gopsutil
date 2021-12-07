@@ -18,7 +18,6 @@ type InfoStat struct {
 	Hostname             string `json:"hostname"`
 	Uptime               uint64 `json:"uptime"`
 	BootTime             uint64 `json:"bootTime"`
-	Procs                uint64 `json:"procs"`           // number of processes
 	OS                   string `json:"os"`              // ex: freebsd, linux
 	Platform             string `json:"platform"`        // ex: ubuntu, linuxmint
 	PlatformFamily       string `json:"platformFamily"`  // ex: debian, rhel
@@ -100,11 +99,6 @@ func InfoWithContext(ctx context.Context) (*InfoStat, error) {
 	}
 
 	ret.Uptime, err = UptimeWithContext(ctx)
-	if err != nil && err != common.ErrNotImplementedError {
-		return nil, err
-	}
-
-	ret.Procs, err = numProcs(ctx)
 	if err != nil && err != common.ErrNotImplementedError {
 		return nil, err
 	}

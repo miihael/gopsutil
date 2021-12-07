@@ -25,9 +25,6 @@ func TestHostInfo(t *testing.T) {
 	if v == empty {
 		t.Errorf("Could not get hostinfo %v", v)
 	}
-	if v.Procs == 0 {
-		t.Errorf("Could not determine the number of host processes")
-	}
 }
 
 func TestUptime(t *testing.T) {
@@ -94,14 +91,13 @@ func TestHostInfoStat_String(t *testing.T) {
 	v := InfoStat{
 		Hostname:   "test",
 		Uptime:     3000,
-		Procs:      100,
 		OS:         "linux",
 		Platform:   "ubuntu",
 		BootTime:   1447040000,
 		HostID:     "edfd25ff-3c9c-b1a4-e660-bd826495ad35",
 		KernelArch: "x86_64",
 	}
-	e := `{"hostname":"test","uptime":3000,"bootTime":1447040000,"procs":100,"os":"linux","platform":"ubuntu","platformFamily":"","platformVersion":"","kernelVersion":"","kernelArch":"x86_64","virtualizationSystem":"","virtualizationRole":"","hostId":"edfd25ff-3c9c-b1a4-e660-bd826495ad35"}`
+	e := `{"hostname":"test","uptime":3000,"bootTime":1447040000,"os":"linux","platform":"ubuntu","platformFamily":"","platformVersion":"","kernelVersion":"","kernelArch":"x86_64","virtualizationSystem":"","virtualizationRole":"","hostId":"edfd25ff-3c9c-b1a4-e660-bd826495ad35"}`
 	if e != fmt.Sprintf("%v", v) {
 		t.Errorf("HostInfoStat string is invalid:\ngot  %v\nwant %v", v, e)
 	}

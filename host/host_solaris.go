@@ -63,15 +63,6 @@ func HostIDWithContext(ctx context.Context) (string, error) {
 	return "", nil
 }
 
-// Count number of processes based on the number of entries in /proc
-func numProcs(ctx context.Context) (uint64, error) {
-	dirs, err := ioutil.ReadDir("/proc")
-	if err != nil {
-		return 0, err
-	}
-	return uint64(len(dirs)), nil
-}
-
 var kstatMatch = regexp.MustCompile(`([^\s]+)[\s]+([^\s]*)`)
 
 func BootTimeWithContext(ctx context.Context) (uint64, error) {

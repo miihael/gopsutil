@@ -1,3 +1,4 @@
+//go:build !darwin && !linux && !freebsd && !openbsd && !solaris && !windows
 // +build !darwin,!linux,!freebsd,!openbsd,!solaris,!windows
 
 package host
@@ -10,10 +11,6 @@ import (
 
 func HostIDWithContext(ctx context.Context) (string, error) {
 	return "", common.ErrNotImplementedError
-}
-
-func numProcs(ctx context.Context) (uint64, error) {
-	return 0, common.ErrNotImplementedError
 }
 
 func BootTimeWithContext(ctx context.Context) (uint64, error) {
