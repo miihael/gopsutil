@@ -1,6 +1,7 @@
 package process
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -23,7 +24,7 @@ import (
 var mu sync.Mutex
 
 func skipIfNotImplementedErr(t *testing.T, err error) {
-	if err == common.ErrNotImplementedError {
+	if errors.Is(err, common.ErrNotImplementedError) {
 		t.Skip("not implemented")
 	}
 }
@@ -45,25 +46,6 @@ func Test_Pids(t *testing.T) {
 	}
 }
 
-func Test_Pids_Fail(t *testing.T) {
-	if runtime.GOOS != "darwin" {
-		t.Skip("darwin only")
-	}
-
-	mu.Lock()
-	defer mu.Unlock()
-
-	invoke = common.FakeInvoke{Suffix: "fail"}
-	ret, err := Pids()
-	skipIfNotImplementedErr(t, err)
-	invoke = common.Invoke{}
-	if err != nil {
-		t.Errorf("error %v", err)
-	}
-	if len(ret) != 9 {
-		t.Errorf("wrong getted pid nums: %v/%d", ret, len(ret))
-	}
-}
 func Test_Pid_exists(t *testing.T) {
 	checkPid := os.Getpid()
 
@@ -92,7 +74,6 @@ func Test_NewProcess(t *testing.T) {
 			t.Errorf("error %v", ret)
 		}
 	}
-
 }
 
 func Test_Process_memory_maps(t *testing.T) {
@@ -130,6 +111,7 @@ func Test_Process_memory_maps(t *testing.T) {
 		t.Errorf("memory map is empty")
 	}
 }
+
 func Test_Process_MemoryInfo(t *testing.T) {
 	p := testGetProcess()
 
@@ -315,6 +297,7 @@ func Test_Process_Name(t *testing.T) {
 		t.Errorf("invalid Exe %s", n)
 	}
 }
+
 func Test_Process_Long_Name_With_Spaces(t *testing.T) {
 	tmpdir, err := ioutil.TempDir("", "")
 	if err != nil {
@@ -360,6 +343,7 @@ func Test_Process_Long_Name_With_Spaces(t *testing.T) {
 	}
 	cmd.Process.Kill()
 }
+
 func Test_Process_Long_Name(t *testing.T) {
 	tmpdir, err := ioutil.TempDir("", "")
 	if err != nil {
@@ -405,6 +389,7 @@ func Test_Process_Long_Name(t *testing.T) {
 	}
 	cmd.Process.Kill()
 }
+
 func Test_Process_Exe(t *testing.T) {
 	p := testGetProcess()
 
